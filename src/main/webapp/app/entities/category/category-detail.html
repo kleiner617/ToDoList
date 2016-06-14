@@ -1,0 +1,26 @@
+
+<div>
+    <h2><span translate="todoApp.category.detail.title">Category</span> {{vm.category.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span translate="todoApp.category.name">Name</span></dt>
+        <dd>
+            <span>{{vm.category.name}}</span>
+        </dd>
+        <dt><span translate="todoApp.category.user">User</span></dt>
+        <dd>
+            {{vm.category.user.login}}
+        </dd>
+        <dt><span>Items</span></dt>
+        <dd><ul>
+            <li ng-repeat="item in vm.items track by item.id">{{item.toDo}}</li>
+        </ul></dd>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

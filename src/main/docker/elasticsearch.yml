@@ -1,0 +1,10 @@
+version: '2'
+services:
+    todo-elasticsearch:
+        container_name: todo-elasticsearch
+        image: elasticsearch:1.7.5
+        # volumes:
+        #     - ~/volumes/jhipster/todo/elasticsearch/:/usr/share/elasticsearch/data/
+        ports:
+            - 9200:9200
+            - 9300:9300

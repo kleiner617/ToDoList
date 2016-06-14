@@ -1,0 +1,105 @@
+<div>
+    <h2 translate="todoApp.item.home.title">Items</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="item.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="hidden-xs"  translate="todoApp.item.home.createLabel">
+                        Create new Item
+                    </span>
+                </button>
+            </div>
+            <div class="col-xs-8 no-padding-right">
+                <form name="searchForm" class="form-inline">
+                    <div class="input-group pull-right" >
+                        <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="{{ 'todoApp.item.home.search' | translate }}">
+                        <span  class="input-group-btn width-min" >
+                            <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                        <span class="input-group-btn width-min" ng-if="vm.currentSearch">
+                            <button class="btn btn-info" ng-click="vm.clear()">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th></th>
+                    <!--<th jh-sort-by="id"><span translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <th jh-sort-by="toDo"><span translate="todoApp.item.toDo">To Do</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="comments"><span translate="todoApp.item.comments">Comments</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="dueDate"><span translate="todoApp.item.dueDate">Due Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="priority"><span translate="todoApp.item.priority">Priority</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="completed"><span translate="todoApp.item.completed">Completed</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="category.name"><span translate="todoApp.item.category">Category</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <!--<th jh-sort-by="user.login"><span translate="todoApp.item.user">User</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+                <tr ng-repeat="item in vm.items track by item.id">
+                    <!--<td><a ui-sref="item-detail({id:item.id})">{{item.id}}</a></td>-->
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="completed_check" id="checked"
+                                       ng-checked = "item.completed"
+                                       ng-click = "wasClicked(completed_check, item.id)"
+                                       ng-true-value="1" ng-false-value="0" >
+                                <span class="checkbox-material"><span class="check"></span></span>
+                                </label>
+                            </label>
+                        </div>
+                    </td>
+                    <td>{{item.toDo}}</td>
+                    <td>{{item.comments}}</td>
+                    <td>{{item.dueDate | date:'medium'}}</td>
+                    <td>{{item.priority}}</td>
+                    <td class="text-center">
+                        <i class="glyphicon"
+                           ng-class = "{'glyphicon-ok text-success' :item.completed}">
+                        </i></td>
+                    <td>
+                        <a ui-sref="category-detail({id:item.category.id})">{{item.category.name}}</a>
+                    </td>
+<!--                    <td>
+                        {{item.user.login}}
+                    </td>-->
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="item-detail({id:item.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="item.edit({id:item.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="item.delete({id:item.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

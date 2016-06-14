@@ -1,0 +1,91 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myItemLabel" translate="todoApp.item.home.createOrEditLabel">Create or edit a Item</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.item.id">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.item.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="todoApp.item.toDo" for="field_toDo">To Do</label>
+            <input type="text" class="form-control" name="toDo" id="field_toDo"
+                    ng-model="vm.item.toDo"
+                    required />
+            <div ng-show="editForm.toDo.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.toDo.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="todoApp.item.comments" for="field_comments">Comments</label>
+                <textarea class="form-control" name="comments" id="field_comments"
+                    ng-model="vm.item.comments"  />
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="todoApp.item.dueDate" for="field_dueDate">Due Date</label>
+                <div class="input-group">
+                    <input id="field_dueDate" type="text" class="form-control" name="dueDate" datetime-picker="{{dateformat}}" ng-model="vm.item.dueDate" is-open="vm.datePickerOpenStatus.dueDate"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dueDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" translate="todoApp.item.priority" for="field_priority">Priority</label>
+            <input type="number" class="form-control" name="priority" id="field_priority"
+                    ng-model="vm.item.priority"
+                    min="0" max="5" />
+            <div ng-show="editForm.priority.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.priority.$error.min" translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.priority.$error.max" translate="entity.validation.max" translate-value-max="5">
+                    This field cannot be more than 5.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.priority.$error.number" translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+<!--        <div class="form-group">
+            <label class="control-label" translate="todoApp.item.completed" for="field_completed">Completed</label>
+            <input type="number" class="form-control" name="completed" id="field_completed"
+                    ng-model="vm.item.completed"
+                     />
+        </div>-->
+
+        <div class="form-group">
+            <label translate="todoApp.item.category" for="field_category">Category</label>
+            <select class="form-control" id="field_category" name="category" ng-model="vm.item.category" ng-options="category as category.name for category in vm.categories track by category.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group" has-Authority="ROLE_ADMIN">
+            <label translate="todoApp.item.user" for="field_user">User</label>
+            <select class="form-control" id="field_user" name="user" ng-model="vm.item.user" ng-options="user as user.login for user in vm.users track by user.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>
